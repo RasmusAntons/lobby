@@ -8,6 +8,14 @@ This is a spigot plugin intended to be used on the default server of a bungeecor
 * If players fall into the void they get ported back
 * Players cannot push each other around
 
+### No Weather
+* Weather doesn't change
+
+### Protect World
+* Players cannot break blocks
+* Players cannot interact with entities
+* Gamerule mobGriefing is set to false
+
 ### Inventory Menu
 * Configurable items in the player inventory trigger custom actions
 * Submenus in additional inventories

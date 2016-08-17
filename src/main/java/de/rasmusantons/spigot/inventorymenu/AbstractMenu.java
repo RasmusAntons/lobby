@@ -3,6 +3,7 @@ package de.rasmusantons.spigot.inventorymenu;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -66,17 +67,19 @@ public abstract class AbstractMenu implements Listener {
 		event.setCancelled(true);
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onInteract(PlayerInteractEvent event) {
 		if (event.getPlayer().getGameMode() == GameMode.CREATIVE || event.getAction() == Action.PHYSICAL)
 			return;
-		onItemActivated(event.getPlayer().getInventory().getHeldItemSlot(), event.getPlayer());
-		event.setCancelled(true);
+		if (onItemActivated(event.getPlayer().getInventory().getHeldItemSlot(), event.getPlayer()))
+			event.setCancelled(true);
 	}
 
-	protected void onItemActivated(int pos, Player player) {
+	protected boolean onItemActivated(int pos, Player player) {
 		if (entries[pos] != null) {
 			entries[pos].action(pos, player);
+			return true;
 		}
+		return false;
 	}
 }

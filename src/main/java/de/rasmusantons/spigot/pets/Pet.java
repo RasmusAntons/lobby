@@ -1,7 +1,6 @@
 package de.rasmusantons.spigot.pets;
 
 import net.minecraft.server.v1_10_R1.EntityInsentient;
-import net.minecraft.server.v1_10_R1.NavigationAbstract;
 import net.minecraft.server.v1_10_R1.PathfinderGoalSelector;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -12,10 +11,6 @@ import java.lang.reflect.Field;
 import java.util.Set;
 
 public class Pet {
-
-	private final static float WALKING_SPEED = 1.25F;
-	private final static float MAX_DEST_DIFF = 3F;
-	private final static float TP_DIST = 16F;
 
 	private Player owner;
 	private CraftLivingEntity craftEntity;
@@ -40,21 +35,6 @@ public class Pet {
 
 	public void remove() {
 		craftEntity.remove();
-	}
-
-	public void moveTo(Location location) {
-		if (destination != null && destination.distance(location) <= MAX_DEST_DIFF) {
-			return;
-		} else if (destination != null && destination.distance(location) > TP_DIST) {
-			craftEntity.teleport(location);
-		}
-		destination = location;
-		NavigationAbstract navigation = ((EntityInsentient) craftEntity.getHandle()).getNavigation();
-		navigation.a(navigation.a(location.getX(), location.getY(), location.getZ()), WALKING_SPEED);
-	}
-
-	public void moveTo(Player player) {
-		moveTo(player.getLocation());
 	}
 
 	private Set getGoals(GoalFieldType goalFieldType) {

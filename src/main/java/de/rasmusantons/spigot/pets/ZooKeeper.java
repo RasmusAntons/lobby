@@ -35,9 +35,9 @@ public class ZooKeeper implements Listener {
 
 	private void spawnPet(Player player) {
 		PetInfo petInfo = database.get(player.getName());
-		if (petInfo == null)
-			return;
-		cage.put(player, new Pet(player, petInfo.getType(), petInfo.getName()));
+		if (petInfo != null) {
+			cage.put(player, new Pet(player, petInfo.getType(), petInfo.getName()));
+		}
 	}
 
 	@EventHandler
@@ -47,9 +47,9 @@ public class ZooKeeper implements Listener {
 
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
-		Player player = event.getPlayer();
-		if (cage.containsKey(player)) {
-			cage.get(player).remove();
+		Pet pet = cage.get(event.getPlayer());
+		if (pet != null) {
+			pet.remove();
 		}
 	}
 }
