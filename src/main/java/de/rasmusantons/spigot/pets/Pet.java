@@ -1,13 +1,11 @@
 package de.rasmusantons.spigot.pets;
 
+import de.rasmusantons.spigot.pets.ai_tasks.EntityAICreeperThreatening;
 import de.rasmusantons.spigot.pets.ai_tasks.EntityAIFollowOwner;
 import de.rasmusantons.spigot.pets.ai_tasks.EntityAILookAtOwner;
 import de.rasmusantons.spigot.pets.nms_wrapper.WrappedEntityLiving;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Ageable;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 
 public class Pet {
 
@@ -40,5 +38,8 @@ public class Pet {
 	private void setTasks() {
 		wrappedEntity.addTask(0, new EntityAIFollowOwner(entity, owner), WrappedEntityLiving.TaskType.GOAL);
 		wrappedEntity.addTask(1, new EntityAILookAtOwner(entity, owner), WrappedEntityLiving.TaskType.GOAL);
+		if (entity instanceof Creeper) {
+			wrappedEntity.addTask(1, new EntityAICreeperThreatening((Creeper) entity), WrappedEntityLiving.TaskType.GOAL);
+		}
 	}
 }

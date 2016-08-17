@@ -2,6 +2,7 @@ package de.rasmusantons.spigot.pets.nms_wrapper;
 
 import de.rasmusantons.spigot.pets.ai_tasks.EntityAIBase;
 import net.minecraft.server.v1_10_R1.EntityInsentient;
+import net.minecraft.server.v1_10_R1.NBTTagCompound;
 import net.minecraft.server.v1_10_R1.PathfinderGoalSelector;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
@@ -36,6 +37,14 @@ public class WrappedEntityLiving extends WrappedEntity {
 
 	public WrappedPathNavigate getNavigator() {
 		return new WrappedPathNavigate(entity.getNavigation());
+	}
+
+	public void writeEntityToNBT(NBTTagCompound compound) {
+		entity.b(compound);
+	}
+
+	public void readEntityFromNBT(NBTTagCompound compound) {
+		entity.a(compound);
 	}
 
 	public int getVerticalFaceSpeed() {
