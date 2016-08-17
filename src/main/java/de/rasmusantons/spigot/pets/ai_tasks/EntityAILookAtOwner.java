@@ -1,17 +1,16 @@
 package de.rasmusantons.spigot.pets.ai_tasks;
 
 import de.rasmusantons.spigot.pets.nms_wrapper.WrappedEntityLiving;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 public class EntityAILookAtOwner extends EntityAIBase {
 	private final WrappedEntityLiving entity;
-	private CraftPlayer owner;
+	private Player owner;
 
-	public EntityAILookAtOwner(CraftLivingEntity craftEntity, Player owner) {
-		this.owner = (CraftPlayer) owner;
-		entity = new WrappedEntityLiving(craftEntity);
+	public EntityAILookAtOwner(LivingEntity entity, Player owner) {
+		this.entity = new WrappedEntityLiving(entity);
+		this.owner = owner;
 		setMutexBits(TaskBit.LOOK | TaskBit.WALK);
 	}
 
