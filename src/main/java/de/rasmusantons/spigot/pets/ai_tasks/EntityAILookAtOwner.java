@@ -1,17 +1,17 @@
 package de.rasmusantons.spigot.pets.ai_tasks;
 
-import net.minecraft.server.v1_10_R1.EntityInsentient;
+import de.rasmusantons.spigot.pets.nms_wrapper.WrappedEntityLiving;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class EntityAILookAtOwner extends EntityAIBase {
-	private final EntityInsentient nmsPet;
+	private final WrappedEntityLiving entity;
 	private CraftPlayer owner;
 
-	public EntityAILookAtOwner(CraftLivingEntity pet, Player owner) {
+	public EntityAILookAtOwner(CraftLivingEntity craftEntity, Player owner) {
 		this.owner = (CraftPlayer) owner;
-		nmsPet = (EntityInsentient) pet.getHandle();
+		entity = new WrappedEntityLiving(craftEntity);
 		setMutexBits(TaskBit.LOOK | TaskBit.WALK);
 	}
 
@@ -22,7 +22,7 @@ public class EntityAILookAtOwner extends EntityAIBase {
 
 	@Override
 	public void updateTask() {
-		nmsPet.getControllerLook().a(owner.getHandle(), nmsPet.cJ(), nmsPet.N());
+		entity.getLookHelper().setLookPositionWithEntity(owner, entity.getHorizontalFaceSpeed(), entity.getVerticalFaceSpeed());
 	}
 
 }

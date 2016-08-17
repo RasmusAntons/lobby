@@ -36,7 +36,7 @@ public class ZooKeeper implements Listener {
 	private void spawnPet(Player player) {
 		PetInfo petInfo = database.get(player.getName());
 		if (petInfo != null) {
-			cage.put(player, new Pet(player, petInfo.getType(), petInfo.getName()));
+			cage.put(player, new Pet(player, petInfo));
 		}
 	}
 
