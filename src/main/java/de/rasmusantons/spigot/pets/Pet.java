@@ -1,5 +1,7 @@
 package de.rasmusantons.spigot.pets;
 
+import de.rasmusantons.spigot.pets.ai_tasks.EntityAIFollowOwner;
+import de.rasmusantons.spigot.pets.ai_tasks.EntityAILookAtOwner;
 import net.minecraft.server.v1_10_R1.EntityInsentient;
 import net.minecraft.server.v1_10_R1.PathfinderGoalSelector;
 import org.bukkit.Location;
@@ -73,7 +75,8 @@ public class Pet {
 	private void setGoal() {
 		EntityInsentient entityInsentient = (EntityInsentient) craftEntity.getHandle();
 		PathfinderGoalSelector goalSelector = entityInsentient.goalSelector;
-		goalSelector.a(0, new PathfinderGoalFollowOwner(craftEntity, owner));
+		goalSelector.a(0, new EntityAIFollowOwner(craftEntity, owner));
+		goalSelector.a(1, new EntityAILookAtOwner(craftEntity, owner));
 	}
 
 	private void clearGoals() {

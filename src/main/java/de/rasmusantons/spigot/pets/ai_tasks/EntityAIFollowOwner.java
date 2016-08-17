@@ -1,22 +1,16 @@
-package de.rasmusantons.spigot.pets;
+package de.rasmusantons.spigot.pets.ai_tasks;
 
-import net.minecraft.server.v1_10_R1.*;
+import net.minecraft.server.v1_10_R1.BlockPosition;
+import net.minecraft.server.v1_10_R1.EntityInsentient;
+import net.minecraft.server.v1_10_R1.NavigationAbstract;
+import net.minecraft.server.v1_10_R1.World;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-/**
- * a(int var1) === setMutexBits(int mutexBitsIn)
- * Sets a bitmask telling which other tasks may not run concurrently. The test is a simple bitwise AND - if it
- * yields zero, the two tasks may run concurrently, if not - they must run exclusively from each other.
- * <p>
- * h() === getMutexBits()
- * Get a bitmask telling which other tasks may not run concurrently. The test is a simple bitwise AND - if it yields
- * zero, the two tasks may run concurrently, if not - they must run exclusively from each other.
- */
-public class PathfinderGoalFollowOwner extends PathfinderGoal {
 
+public class EntityAIFollowOwner extends EntityAIBase {
 	public static final double START_FOLLOW_DIST = 3D * 3D;
 	public static final double STOP_FOLLOW_DIST = 1.5D * 1.5D;
 	public static final double TELEPORT_DIST = 12D * 12D;
@@ -27,67 +21,41 @@ public class PathfinderGoalFollowOwner extends PathfinderGoal {
 	private NavigationAbstract navigation;
 	private int timeToRecalcPath;
 
-	public PathfinderGoalFollowOwner(CraftEntity craftEntity, Player owner) {
+	public EntityAIFollowOwner(CraftEntity craftEntity, Player owner) {
 		this.craftEntity = craftEntity;
 		this.entity = ((EntityInsentient) craftEntity.getHandle());
 		this.owner = owner;
 		this.navigation = entity.getNavigation();
+		setMutexBits(TaskBit.LOOK | TaskBit.WALK);
 	}
 
-	/**
-	 * shouldExecute()
-	 * Returns whether the EntityAIBase should begin execution.
-	 */
+
 	@Override
-	public boolean a() {
+	public boolean shouldExecute() {
 		return owner.getLocation().distanceSquared((craftEntity.getLocation())) > START_FOLLOW_DIST;
 	}
 
-	/**
-	 * continueExecuting()
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
 	@Override
-	public boolean b() {
+	public boolean continueExecuting() {
 		//n() === noPath()
 		return !navigation.n() && owner.getLocation().distanceSquared((craftEntity.getLocation())) > STOP_FOLLOW_DIST;
 	}
 
-	/**
-	 * isInterruptible()
-	 * Determine if this AI Task is interruptible by a higher (= lower value) priority task. All vanilla AITask have
-	 * this value set to true.
-	 */
 	@Override
-	public boolean g() {
-		return true;
-	}
-
-	/**
-	 * startExecuting()
-	 * Execute a one shot task or start executing a continuous task
-	 */
-	@Override
-	public void c() {
+	public void startExecuting() {
 		timeToRecalcPath = 0;
 	}
 
-	/**
-	 * resetTask()
-	 * Resets the task
-	 */
+
 	@Override
-	public void d() {
+	public void resetTask() {
 		// o() === clearPathEntity()
 		navigation.o();
 	}
 
-	/**
-	 * updateTask()
-	 * Updates the task
-	 */
+
 	@Override
-	public void e() {
+	public void updateTask() {
 		// getControllerLook() === getLookHelper()
 		//a(Entity var1, float var2, float var3) === setLookPositionWithEntity(Entity entityIn, float deltaYaw, float deltaPitch)
 		//N() === getVerticalFaceSpeed()
