@@ -4,3 +4,4 @@ description: ${description}
 author: ${author}
 website: ${url}
 main: ${mainClass}
+depend: [ProtocolLib]

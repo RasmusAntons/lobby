@@ -2,6 +2,7 @@ package de.rasmusantons.spigot.pets;
 
 import de.rasmusantons.spigot.pets.ai_tasks.EntityAICreeperThreatening;
 import de.rasmusantons.spigot.pets.ai_tasks.EntityAIFollowOwner;
+import de.rasmusantons.spigot.pets.ai_tasks.EntityAILayEgg;
 import de.rasmusantons.spigot.pets.ai_tasks.EntityAILookAtOwner;
 import de.rasmusantons.spigot.pets.nms_wrapper.WrappedEntityLiving;
 import org.bukkit.attribute.Attribute;
@@ -40,6 +41,8 @@ public class Pet {
 		wrappedEntity.addTask(1, new EntityAILookAtOwner(entity, owner), WrappedEntityLiving.TaskType.GOAL);
 		if (entity instanceof Creeper) {
 			wrappedEntity.addTask(1, new EntityAICreeperThreatening((Creeper) entity), WrappedEntityLiving.TaskType.GOAL);
+		} else if (entity instanceof Chicken) {
+			wrappedEntity.addTask(1, new EntityAILayEgg((Chicken) entity), WrappedEntityLiving.TaskType.GOAL);
 		}
 	}
 }

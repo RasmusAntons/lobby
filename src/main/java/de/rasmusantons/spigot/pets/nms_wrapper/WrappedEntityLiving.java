@@ -31,6 +31,10 @@ public class WrappedEntityLiving extends WrappedEntity {
 		return entity;
 	}
 
+	public float getRenderYawOffset() {
+		return entity.aO;
+	}
+
 	public WrappedEntityLookHelper getLookHelper() {
 		return new WrappedEntityLookHelper(entity.getControllerLook());
 	}
